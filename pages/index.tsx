@@ -1,9 +1,12 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { PrismaClient } from "@prisma/client";
+import type { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import { PrismaClient, App } from "@prisma/client";
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps<{ apps: (Omit<App, "createdAt" | "updatedAt"> & {
+  createdAt: string;
+  updatedAt: string;
+})[] }> = async (context: GetServerSidePropsContext) => {
   const prisma = new PrismaClient()
   const apps = await prisma.app.findMany();
   return {
