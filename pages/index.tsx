@@ -14,7 +14,8 @@ export const getServerSideProps: GetServerSideProps<{ apps: (Omit<App, "createdA
       apps: apps.map( app => ({
         ...app,
         createdAt: new Date(app.createdAt).toString(),
-        updatedAt: new Date(app.updatedAt).toString()
+        updatedAt: new Date(app.updatedAt).toString(),
+        keys: "" // ensure no leakage of keys that may be used for production?
       })),
     }
   }
