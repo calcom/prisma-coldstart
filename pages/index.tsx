@@ -1,7 +1,23 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
+import { PrismaClient } from "@prisma/client";
 
-export default function Home() {
+export const getServerSideProps: GetServerSideProps = async () => {
+  const prisma = new PrismaClient()
+  const apps = await prisma.app.findMany();
+  return {
+    props: {
+      apps: apps.map( app => ({
+        ...app,
+        createdAt: new Date(app.createdAt).toString(),
+        updatedAt: new Date(app.updatedAt).toString()
+      })),
+    }
+  }
+}
+
+export default function Home({ apps }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div className={styles.container}>
       <Head>
@@ -13,6 +29,12 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
+
+        <p>
+          {apps.map( app => 
+            JSON.stringify(app)
+          )}
+        </p>
 
         <p className={styles.description}>
           Get started by editing <code>pages/index.js</code>
