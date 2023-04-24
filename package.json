@@ -9,5 +9,11 @@
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.13",
+    "@types/react": "18.0.38",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   }
 }
